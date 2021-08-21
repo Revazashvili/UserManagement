@@ -29,7 +29,7 @@ namespace API.Endpoints.Users
         [SwaggerResponse(400,"Can't Be Found User With Provided Id",typeof(IResponse<bool>))]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public override async Task<ActionResult<bool>> HandleAsync([SwaggerRequestBody("Update User Information Payload")]UpdateUserInformationDto request, 
+        public override async Task<ActionResult<bool>> HandleAsync([FromBody,SwaggerRequestBody("Update User Information Payload")]UpdateUserInformationDto request, 
             CancellationToken cancellationToken = new())
         {
             var result = await _mediator.Send(new UpdateUserInformationCommand(request), cancellationToken);

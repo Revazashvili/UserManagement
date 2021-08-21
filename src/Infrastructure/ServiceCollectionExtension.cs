@@ -1,8 +1,6 @@
 ﻿using System;
-using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,8 +8,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Extension Class For <see cref="IServiceCollection"/> Interface
+    /// </summary>
     public static class ServiceCollectionExtension
     {
+        /// <summary>
+        /// Injects Infrastructure Dependencies Into Dependency Injection Container
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/> Interface</param>
+        /// <param name="configuration"><see cref="IConfiguration"/> Interface</param>
         public static void AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
         {
             if (Convert.ToBoolean(configuration.GetValue<bool>("UseInMemoryDatabase")))
@@ -32,12 +38,9 @@ namespace Infrastructure
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.User.RequireUniqueEmail = true;
-                    options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            services.AddScoped<IUrlService, UrlService>();
-            //services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
         }
     }
 }

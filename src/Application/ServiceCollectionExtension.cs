@@ -4,13 +4,19 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NETCore.MailKit.Extensions;
-using NETCore.MailKit.Infrastructure.Internal;
 
 namespace Application
 {
+    /// <summary>
+    /// Extension Class For <see cref="IServiceCollection"/> Interface
+    /// </summary>
     public static class ServiceCollectionExtension
     {
+        /// <summary>
+        /// Injects Application Dependencies Into Dependency Injection Container
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/> Interface</param>
+        /// <param name="configuration"><see cref="IConfiguration"/> Interface</param>
         public static void AddApplication(this IServiceCollection services,IConfiguration configuration)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -19,8 +25,6 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TaskCanceledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
-            
-            services.AddMailKit(builder => builder.UseMailKit(configuration.GetSection("MailKit").Get<MailKitOptions>()));
         }
     }
 }

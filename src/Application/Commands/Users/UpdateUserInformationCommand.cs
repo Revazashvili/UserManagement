@@ -25,7 +25,7 @@ namespace Application.Commands.Users
             user.Compensation = updateInfoDto.Compensation;
             user.Employed = updateInfoDto.Employed;
             user.IsMarried = updateInfoDto.IsMarried;
-            user.Pin = user.Pin;
+            user.Pin = updateInfoDto.Pin;
             var updateResult= await _userManager.UpdateAsync(user);
             return new Response<bool>(updateResult.Succeeded, updateResult.Succeeded);
         }

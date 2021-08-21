@@ -2,12 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Users;
-using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using NETCore.MailKit.Core;
 
 namespace Application.Commands.Users
 {
@@ -16,12 +14,10 @@ namespace Application.Commands.Users
     public class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,string>
     {
         private readonly UserManager<User> _userManager;
-        private readonly IEmailService _emailService;
-        private readonly IUrlService _urlService;
+        private readonly SignInManager<User> _signInManager;
 
-        public RegisterUserCommandHandler(UserManager<User> userManager, IEmailService emailService,
-            IUrlService urlService) =>
-            (_userManager, _emailService, _urlService) = (userManager, emailService, urlService);
+        public RegisterUserCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager) =>
+            (_userManager, _signInManager) = (userManager, signInManager);
         
         public async Task<IResponse<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -33,12 +29,11 @@ namespace Application.Commands.Users
             var createResult = await _userManager.CreateAsync(user, request.RegisterUserDto.Password);
             if (createResult.Succeeded)
             {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var link = _urlService.GenerateEmailConfirmationLink(user.Id, token);
-                await _emailService.SendAsync ("test@test.com", "Email verify", $"<a href=\"{link}\">Email verify</a>",true);
-                return Response.Success("Email has been sent. Please verify it.");
+                var signInResult = await _signInManager.PasswordSignInAsync(user, request.RegisterUserDto.Password,false,false);
+                return signInResult.Succeeded
+                    ? Response.Success("User Registered And Sign In Successfully")
+                    : Response.Fail<string>("User Registered Successfully,But Can't Sign In. Please Try Again");
             }
-            
             return Response.Fail<string>(createResult.Errors.Select(x=>x.Description).ToList());
         }
     }

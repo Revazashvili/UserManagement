@@ -29,21 +29,16 @@ namespace API
         private const string ApiCorsPolicy = "APICorsPolicy";
         public void ConfigureServices(IServiceCollection services)
         {
-            var cors = Configuration.GetValue<string[]>("Cors");
             services.AddCors(options => options.AddPolicy(ApiCorsPolicy, builder =>
-            {
                 builder.AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins(cors)
-                    .AllowCredentials();
-            }));
-
-            services.AddHttpContextAccessor();
+                    .WithOrigins(Configuration.GetValue<string[]>("Cors"))
+                    .AllowCredentials()
+            ));
             
             services.AddInfrastructure(Configuration);
             services.AddApplication(Configuration);
-            
-            services.AddControllers().AddFluentValidation(options => options.AutomaticValidationEnabled = true);;
+            services.AddControllers().AddFluentValidation();;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"});
@@ -79,7 +74,6 @@ namespace API
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
-            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

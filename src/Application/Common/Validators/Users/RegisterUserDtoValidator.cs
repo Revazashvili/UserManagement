@@ -6,13 +6,13 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Common.Validators
+namespace Application.Common.Validators.Users
 {
-    public class RegisterUserDtoValidation : AbstractValidator<RegisterUserDto>
+    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
     {
         private readonly UserManager<User> _userManager;
 
-        public RegisterUserDtoValidation(UserManager<User> userManager)
+        public RegisterUserDtoValidator(UserManager<User> userManager)
         {
             _userManager = userManager;
             RuleFor(x => x.Email)
