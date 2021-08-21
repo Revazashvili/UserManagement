@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Ardalis.ApiEndpoints" Version="3.1.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.0" />
+        <PackageReference Include="MediatR" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Serilog" Version="2.10.1-dev-01343" />
+        <PackageReference Include="Serilog.AspNetCore" Version="4.1.1-dev-00229" />
+        <PackageReference Include="Serilog.Enrichers.ApplicationName" Version="0.1.0-rc0000" />
+        <PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />
+        <PackageReference Include="Serilog.Enrichers.Context" Version="4.5.0-develop-00040" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0-dev-00784" />
+        <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2-dev-00741" />
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00752" />
+        <PackageReference Include="Serilog.Exceptions" Version="7.0.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10289" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.1-dev-00944" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="3.2.1-dev-00288" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1-dev-00876" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
