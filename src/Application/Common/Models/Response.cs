@@ -23,6 +23,7 @@ namespace Application.Common.Models
 
     public class Response<T> : IResponse<T>
     {
+
         public Response(string error, bool succeeded)
         {
             Errors = new List<string>

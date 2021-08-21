@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Enums" />
-      <Folder Include="ValueObjects" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
     </ItemGroup>
 
 </Project>

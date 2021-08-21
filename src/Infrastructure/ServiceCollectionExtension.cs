@@ -1,6 +1,9 @@
 ﻿using System;
 using Application.Common.Interfaces;
+using Domain.Entities;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +24,16 @@ namespace Infrastructure
                         builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
                 });
             }
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
+
+            services.AddIdentity<User, IdentityRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddScoped<IUrlService, UrlService>();
+            //services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
         }
     }
 }

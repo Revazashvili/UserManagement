@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using Application;
@@ -36,9 +37,11 @@ namespace API
                     .WithOrigins(cors)
                     .AllowCredentials();
             }));
+
+            services.AddHttpContextAccessor();
             
             services.AddInfrastructure(Configuration);
-            services.AddApplication();
+            services.AddApplication(Configuration);
             
             services.AddControllers().AddFluentValidation(options => options.AutomaticValidationEnabled = true);;
             services.AddSwaggerGen(c =>
@@ -78,6 +81,7 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
