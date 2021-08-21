@@ -29,7 +29,7 @@ namespace API
         private const string ApiCorsPolicy = "APICorsPolicy";
         public void ConfigureServices(IServiceCollection services)
         {
-            var cors = Configuration.GetValue<string[]>("ApiCorsPolicy");
+            var cors = Configuration.GetValue<string[]>("Cors");
             services.AddCors(options => options.AddPolicy(ApiCorsPolicy, builder =>
             {
                 builder.AllowAnyMethod()

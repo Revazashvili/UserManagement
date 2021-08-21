@@ -14,7 +14,7 @@ namespace Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
         {
-            if (Convert.ToBoolean(configuration.GetSection("UseInMemoryDatabase").Value))
+            if (Convert.ToBoolean(configuration.GetValue<bool>("UseInMemoryDatabase")))
                 services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
             else
             {
@@ -27,6 +27,10 @@ namespace Infrastructure
 
             services.AddIdentity<User, IdentityRole>(options =>
                 {
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
                     options.User.RequireUniqueEmail = true;
                     options.SignIn.RequireConfirmedEmail = true;
                 })

@@ -18,8 +18,8 @@ namespace Infrastructure.Services
             const string controllerName = "User"; 
             const string actionName = "VerifyEmail";
             var link =
-                $"{_httpContextAccessor?.HttpContext?.Request.Scheme}//{_httpContextAccessor?.HttpContext?.Request.Host.ToString()}" +
-                $"/{prefix}/{controllerName}/{actionName}?userId={userId}&token={token}";
+                $"{_httpContextAccessor?.HttpContext?.Request.Scheme}://{_httpContextAccessor?.HttpContext?.Request.Host.ToString()}" +
+                $"/{prefix}/{controllerName}/{actionName}?UserId={userId}&Token={token}";
             return link;
         }
     }

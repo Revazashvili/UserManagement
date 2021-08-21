@@ -21,7 +21,6 @@ namespace Application.Common.Behaviours
         {
             if (_validators.Any())
             {
-                //TODO: must return all error message not only one
                 var context = new ValidationContext<TRequest>(request);
 
                 var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));

@@ -28,7 +28,10 @@ namespace Application.Common.Validators
 
         }
 
-        private async Task<bool> UniqueAsync(string email, CancellationToken cancellationToken) =>
-            await _userManager.Users.AnyAsync(x => x.Email != email, cancellationToken);
+        private async Task<bool> UniqueAsync(string email, CancellationToken cancellationToken)
+        {
+            var any = await _userManager.Users.AnyAsync(x => x.Email == email, cancellationToken);
+            return !any;
+        }
     }
 }

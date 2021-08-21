@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Application.Common.DTOs.Users;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +24,7 @@ namespace Application.Queries.Users
         public async Task<IResponse<GetUserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(request.Predicate, cancellationToken);
-            return Response.Success(new GetUserDto());
+            return Response.Success(user.Adapt<GetUserDto>());
         }
     }
 }
