@@ -8,12 +8,8 @@ namespace Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasIndex(x => x.Pin)
-                .IsUnique();
-            builder.Property(x => x.Pin)
-                .HasMaxLength(11)
-                .IsFixedLength()
-                .IsRequired();
+            builder.HasIndex(x => x.Pin).IsUnique();
+            builder.Property(x => x.Pin).HasMaxLength(11).IsFixedLength();
         }
     }
 }

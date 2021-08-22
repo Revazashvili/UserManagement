@@ -7,7 +7,7 @@ namespace Domain.Entities
         /// <summary>
         /// Gets or sets the Personal Number for this user.
         /// </summary>
-        public string Pin { get; set; } = null!;
+        public string? Pin { get; set; }
         /// <summary>
         /// Gets or sets a flag indicating user is married or not.
         /// </summary>
@@ -26,6 +26,6 @@ namespace Domain.Entities
         /// <summary>
         /// Gets or sets the physical address for this user.
         /// </summary>
-        public string Address { get; set; } = null!;
+        public string? Address { get; set; }
     }
 }
