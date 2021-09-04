@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Users;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
@@ -14,19 +16,20 @@ namespace Application.Commands.Users
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public LoginUserCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager) =>
-            (_userManager, _signInManager) = (userManager, signInManager);
+        public LoginUserCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager,
+            ITokenService tokenService) =>
+            (_userManager, _signInManager, _tokenService) = (userManager, signInManager, tokenService);
 
         public async Task<IResponse<string>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.LoginUserDto.Email);
-            if(user is null) return Response.Fail<string>("Can't find user with provided email");
+            if (user is null) throw new Exception("Can't find user with provided email");
             var signInResult =
                 await _signInManager.PasswordSignInAsync(user, request.LoginUserDto.Password, false, false);
-            return signInResult.Succeeded
-                ? Response.Success("you are signed in")
-                : Response.Fail<string>("Error while signing user");
+            if (!signInResult.Succeeded) throw new Exception("error occured while signing in user");
+            return Response.Success(_tokenService.Generate(user));
         }
     }
 }

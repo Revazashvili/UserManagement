@@ -9,9 +9,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.Endpoints.Users
+namespace API.Endpoints.Auth
 {
-    [Route(ApiRoutes.User)]
+    [Route(AuthRoutes.Login)]
     public class Login : BaseAsyncEndpoint
         .WithRequest<LoginUserDto>
         .WithResponse<IResponse<string>>
@@ -20,20 +20,20 @@ namespace API.Endpoints.Users
 
         public Login(IMediator mediator) => _mediator = mediator;
         
-        [HttpPost("Login")]
-        [SwaggerOperation(Description = "Signs In Provided User",
+        [HttpPost]
+        [SwaggerOperation(Description = "Signs in provided user and return token",
             Summary = "Sign In",
-            OperationId = "User.Login",
-            Tags = new []{ "User" })]
-        [SwaggerResponse(200,"User Logged In successfully",typeof(IResponse<string>))]
+            OperationId = "Auth.Login",
+            Tags = new []{ "Auth" })]
+        [SwaggerResponse(200,"User logged in successfully",typeof(IResponse<string>))]
         [SwaggerResponse(400,"User with provided email can not be found",typeof(IResponse<string>))]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public override async Task<ActionResult<IResponse<string>>> HandleAsync([SwaggerRequestBody("User Login Payload",Required = true)]LoginUserDto request, 
+        public override async Task<ActionResult<IResponse<string>>> HandleAsync(
+            [SwaggerRequestBody("User login payload",Required = true)]LoginUserDto loginUserDto, 
             CancellationToken cancellationToken = new())
         {
-            var result = await _mediator.Send(new LoginUserCommand(request), cancellationToken);
-            return result.Succeeded ? Ok(result) : BadRequest(result);
+            return Ok(await _mediator.Send(new LoginUserCommand(loginUserDto), cancellationToken));
         }
     }
 }

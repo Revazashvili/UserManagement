@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Users;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
@@ -16,9 +17,11 @@ namespace Application.Commands.Users
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public RegisterUserCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager) =>
-            (_userManager, _signInManager) = (userManager, signInManager);
+        public RegisterUserCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager,
+            ITokenService tokenService) =>
+            (_userManager, _signInManager, _tokenService) = (userManager, signInManager, tokenService);
         
         public async Task<IResponse<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -28,14 +31,11 @@ namespace Application.Commands.Users
                 UserName = request.RegisterUserDto.Email
             };
             var createResult = await _userManager.CreateAsync(user, request.RegisterUserDto.Password);
-            if (createResult.Succeeded)
-            {
-                var signInResult = await _signInManager.PasswordSignInAsync(user, request.RegisterUserDto.Password,false,false);
-                return signInResult.Succeeded
-                    ? Response.Success("User Registered And Sign In Successfully")
-                    : Response.Fail<string>("User Registered Successfully,But Can't Sign In. Please Try Again");
-            }
-            return Response.Fail<string>(createResult.Errors.Select(x=>x.Description).ToList());
+            if (!createResult.Succeeded)
+                throw new Exception(createResult.Errors.Select(x => x.Description).FirstOrDefault());
+            
+            await _signInManager.PasswordSignInAsync(user, request.RegisterUserDto.Password,false,false);
+            return Response.Success(_tokenService.Generate(user));
         }
     }
 }

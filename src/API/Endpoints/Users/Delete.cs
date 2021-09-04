@@ -5,12 +5,14 @@ using Application.Commands.Users;
 using Application.Common.Models;
 using Ardalis.ApiEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Users
 {
-    [Route(ApiRoutes.User)]
+    [Route(UserRoutes.Delete)]
     public class Delete : BaseAsyncEndpoint
         .WithRequest<string>
         .WithResponse<IResponse<bool>>
@@ -19,20 +21,20 @@ namespace API.Endpoints.Users
 
         public Delete(IMediator mediator) => _mediator = mediator;
         
-        [HttpDelete("Delete")]
-        [SwaggerOperation(Description = "Deletes User From Database With Provided Id",
-            Summary = "Delete User",
+        [HttpDelete]
+        [SwaggerOperation(Description = "Deletes user from database with provided id",
+            Summary = "Delete user",
             OperationId = "User.Delete",
             Tags = new []{ "User" })]
         [SwaggerResponse(200,"User deleted successfully",typeof(IResponse<bool>))]
         [SwaggerResponse(400,"User can not be found",typeof(IResponse<bool>))]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public override async Task<ActionResult<IResponse<bool>>> HandleAsync([FromQuery,SwaggerParameter("User Id Which Should Be Delete")]string Id,
+        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        public override async Task<ActionResult<IResponse<bool>>> HandleAsync([FromQuery,SwaggerParameter("User id")]string id,
             CancellationToken cancellationToken = new())
         {
-            var result = await _mediator.Send(new DeleteUserCommand(Id), cancellationToken);
-            return result.Succeeded ? Ok(result) : BadRequest(result);
+            return Ok(await _mediator.Send(new DeleteUserCommand(id), cancellationToken));
         }
     }
 }

@@ -7,12 +7,14 @@ using Application.Common.Models;
 using Application.Queries.Users;
 using Ardalis.ApiEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Users
 {
-    [Route(ApiRoutes.User)]
+    [Route(UserRoutes.Get)]
     public class Get : BaseAsyncEndpoint
         .WithoutRequest
         .WithResponse<IResponse<IReadOnlyList<GetUserDto>>>
@@ -20,19 +22,19 @@ namespace API.Endpoints.Users
         private readonly IMediator _mediator;
         public Get(IMediator mediator) => _mediator = mediator;
         
-        [HttpGet("Users")]
-        [SwaggerOperation(Description = "Returns all User",
-            Summary = "Returns all User",
-            OperationId = "User.GetAll",
+        [HttpGet]
+        [SwaggerOperation(Description = "Returns all user",
+            Summary = "Returns all user",
+            OperationId = "User.Get",
             Tags = new []{ "User" })]
-        [SwaggerResponse(200,"All User From Database",typeof(IResponse<IReadOnlyList<GetUserDto>>))]
-        [SwaggerResponse(400,"No User Can't Be Found",typeof(IResponse<IReadOnlyList<GetUserDto>>))]
+        [SwaggerResponse(200,"All user from database",typeof(IResponse<IReadOnlyList<GetUserDto>>))]
+        [SwaggerResponse(400,"No User can't be found",typeof(IResponse<IReadOnlyList<GetUserDto>>))]
         [Produces("application/json")]
         [Consumes("application/json")]
+        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
         public override async Task<ActionResult<IResponse<IReadOnlyList<GetUserDto>>>> HandleAsync(CancellationToken cancellationToken = new())
         {
-            var result = await _mediator.Send(new GetAllUserQuery(),cancellationToken);
-            return result.Succeeded ? Ok(result) : BadRequest(result);
+            return Ok(await _mediator.Send(new GetAllUserQuery(),cancellationToken));
         }
     }
 }
