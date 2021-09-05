@@ -5,5 +5,6 @@
         public const string Register = "api/Auth/Register";
         public const string Login = "api/Auth/Login";
         public const string Refresh = "api/Auth/Refresh";
+        public const string LogOut = "api/Auth/LogOut";
     }
 }
