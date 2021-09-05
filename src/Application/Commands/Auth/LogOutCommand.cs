@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth
 {
-    public record LogOutCommand : IRequestWrapper<Unit>{} 
+    public record LogOutCommand : IRequestWrapper<Unit>{}
     
     public class LogOutCommandHandler : IHandlerWrapper<LogOutCommand,Unit>
     {

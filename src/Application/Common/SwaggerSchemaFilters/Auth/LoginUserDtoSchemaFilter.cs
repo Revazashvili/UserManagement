@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Application.Common.Users.SwaggerSchemaFilters
+namespace Application.Common.SwaggerSchemaFilters.Auth
 {
     public class LoginUserDtoSchemaFilter : ISchemaFilter
     {

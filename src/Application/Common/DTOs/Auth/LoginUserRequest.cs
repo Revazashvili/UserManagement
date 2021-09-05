@@ -1,4 +1,4 @@
-﻿using Application.Common.Users.SwaggerSchemaFilters;
+﻿using Application.Common.SwaggerSchemaFilters.Auth;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Application.Common.DTOs.Auth
