@@ -1,10 +1,10 @@
-﻿using Application.Common.Users.SwaggerSchemaFilters;
+﻿using Application.Common.SwaggerSchemaFilters.Auth;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Application.Common.DTOs.Users
+namespace Application.Common.DTOs.Auth
 {
     [SwaggerSchemaFilter(typeof(RegisterUserDtoSchemaFilter))]
-    public class RegisterUserDto
+    public class RegisterUserRequest
     {
         [SwaggerSchema(Required = new[] { "The User Email" })]
         public string Email { get; set; }

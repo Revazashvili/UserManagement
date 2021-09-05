@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.DTOs.Auth;
 using Application.Common.DTOs.Users;
 using Domain.Entities;
 using FluentValidation;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Common.Validators.Users
 {
-    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
+    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserRequest>
     {
         private readonly UserManager<User> _userManager;
 

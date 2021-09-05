@@ -1,6 +1,8 @@
 ﻿using System;
+using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,13 @@ namespace Infrastructure
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IApplicationDbContext>(x => x.GetService<ApplicationDbContext>()!);
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<IAccessTokenService, AccessTokenService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<IRefreshTokenValidator, RefreshTokenValidator>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
         }
     }
 }

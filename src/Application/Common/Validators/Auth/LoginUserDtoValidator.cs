@@ -1,9 +1,9 @@
-﻿using Application.Common.DTOs.Users;
+﻿using Application.Common.DTOs.Auth;
 using FluentValidation;
 
-namespace Application.Common.Validators.Users
+namespace Application.Common.Validators.Auth
 {
-    public class LoginUserDtoValidator : AbstractValidator<LoginUserDto>
+    public class LoginUserDtoValidator : AbstractValidator<LoginUserRequest>
     {
         public LoginUserDtoValidator()
         {

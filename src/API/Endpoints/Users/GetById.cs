@@ -6,34 +6,37 @@ using Application.Common.Models;
 using Application.Queries.Users;
 using Ardalis.ApiEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Endpoints.Users
 {
-    [Route(ApiRoutes.User)]
+    [Route(UserRoutes.GetById)]
     public class GetById : BaseAsyncEndpoint
         .WithRequest<string>
-        .WithResponse<IResponse<GetUserDto>>
+        .WithResponse<IResponse<GetUserRequest>>
     {
         private readonly IMediator _mediator;
 
         public GetById(IMediator mediator) => _mediator = mediator;
         
-        [HttpGet("GetById")]
-        [SwaggerOperation(Description = "Returns User by id",
-            Summary = "Returns User by id",
+        [HttpGet]
+        [SwaggerOperation(Description = "Returns user by id",
+            Summary = "Returns user by id",
             OperationId = "User.GetById",
             Tags = new []{ "User" })]
-        [SwaggerResponse(200,"User Based On Id",typeof(IResponse<GetUserDto>))]
-        [SwaggerResponse(400,"No User Can't Be Found With Provided Id",typeof(IResponse<GetUserDto>))]
+        [SwaggerResponse(200,"User based on id",typeof(IResponse<GetUserRequest>))]
+        [SwaggerResponse(400,"No User can't be found with provided id",typeof(IResponse<GetUserRequest>))]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public override async Task<ActionResult<IResponse<GetUserDto>>> HandleAsync([FromQuery,SwaggerParameter("User Id Which Will Be Retrieved",Required = true)]string id, 
+        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        public override async Task<ActionResult<IResponse<GetUserRequest>>> HandleAsync(
+            [FromQuery,SwaggerParameter("User id",Required = true)]string id, 
             CancellationToken cancellationToken = new())
         {
-            var result = await _mediator.Send(new GetUserQuery(x => x.Id == id), cancellationToken);
-            return result.Succeeded ? Ok(result) : BadRequest(result);
+            return Ok(await _mediator.Send(new GetUserQuery(x => x.Id == id), cancellationToken));
         }
     }
 }
