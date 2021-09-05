@@ -23,6 +23,8 @@ This layer is a Web API based on ASP.NET Core 5. This layer depends on both the 
 * [Mapster](https://github.com/MapsterMapper/Mapster)
 * [FluentValidation](https://fluentvalidation.net/)
 * [Serilog](https://serilog.net/)
+* [JWT](https://jwt.io/)
+* [Ardalis.ApiEndpoints](https://github.com/ardalis/ApiEndpoints)
 
 ### Database Configuration
 
