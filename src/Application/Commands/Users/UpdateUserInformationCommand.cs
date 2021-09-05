@@ -1,16 +1,16 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Users;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
+using Domain.Exceptions;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users
 {
-    public record UpdateUserInformationCommand(UpdateUserInformationDto UpdateUserInformationDto) : IRequestWrapper<bool>{}
+    public record UpdateUserInformationCommand(UpdateUserInformationRequest UpdateUserInformationRequest) : IRequestWrapper<bool>{}
 
     public class UpdateUserInformationCommandHandler : IHandlerWrapper<UpdateUserInformationCommand, bool>
     {
@@ -22,9 +22,9 @@ namespace Application.Commands.Users
         
         public async Task<IResponse<bool>> Handle(UpdateUserInformationCommand request, CancellationToken cancellationToken)
         {
-            var updateInfoDto = request.UpdateUserInformationDto;
+            var updateInfoDto = request.UpdateUserInformationRequest;
             var user = await _userManager.FindByEmailAsync(updateInfoDto.Email);
-            if (user is null) throw new Exception("Can't find user with provided email");
+            if (user is null) throw new UserNotFoundException();
             _mapper.Map(updateInfoDto,user);
             var updateResult= await _userManager.UpdateAsync(user);
             return new Response<bool>(updateResult.Succeeded, updateResult.Succeeded);

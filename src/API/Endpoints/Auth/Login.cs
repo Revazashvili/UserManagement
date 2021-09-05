@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using API.Routes;
-using Application.Commands.Users;
-using Application.Common.DTOs.Users;
+using Application.Commands.Auth;
+using Application.Common.DTOs.Auth;
 using Application.Common.Models;
 using Ardalis.ApiEndpoints;
 using MediatR;
@@ -13,7 +13,7 @@ namespace API.Endpoints.Auth
 {
     [Route(AuthRoutes.Login)]
     public class Login : BaseAsyncEndpoint
-        .WithRequest<LoginUserDto>
+        .WithRequest<LoginUserRequest>
         .WithResponse<IResponse<string>>
     {
         private readonly IMediator _mediator;
@@ -30,10 +30,10 @@ namespace API.Endpoints.Auth
         [Produces("application/json")]
         [Consumes("application/json")]
         public override async Task<ActionResult<IResponse<string>>> HandleAsync(
-            [SwaggerRequestBody("User login payload",Required = true)]LoginUserDto loginUserDto, 
+            [SwaggerRequestBody("User login payload",Required = true)]LoginUserRequest loginUserRequest, 
             CancellationToken cancellationToken = new())
         {
-            return Ok(await _mediator.Send(new LoginUserCommand(loginUserDto), cancellationToken));
+            return Ok(await _mediator.Send(new LoginUserCommand(loginUserRequest), cancellationToken));
         }
     }
 }

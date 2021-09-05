@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using API.Routes;
-using Application.Commands.Users;
-using Application.Common.DTOs.Users;
+using Application.Commands.Auth;
+using Application.Common.DTOs.Auth;
 using Application.Common.Models;
 using Ardalis.ApiEndpoints;
 using MediatR;
@@ -13,8 +13,8 @@ namespace API.Endpoints.Auth
 {
     [Route(AuthRoutes.Register)]
     public class Register : BaseAsyncEndpoint
-        .WithRequest<RegisterUserDto>
-        .WithResponse<IResponse<string>>
+        .WithRequest<RegisterUserRequest>
+        .WithoutResponse
     {
         private readonly IMediator _mediator;
 
@@ -25,15 +25,16 @@ namespace API.Endpoints.Auth
             Summary = "Register new user",
             OperationId = "Auth.Register",
             Tags = new []{ "Auth" })]
-        [SwaggerResponse(200,"User registered successfully",typeof(IResponse<string>))]
-        [SwaggerResponse(400,"Some error occured during registration",typeof(IResponse<string>))]
+        [SwaggerResponse(200,"User registered successfully")]
+        [SwaggerResponse(400,"Some error occured during registration")]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public override async Task<ActionResult<IResponse<string>>> HandleAsync(
-            [SwaggerRequestBody("User register payload",Required = true)]RegisterUserDto registerUserDto, 
+        public override async Task<ActionResult> HandleAsync(
+            [SwaggerRequestBody("User register payload",Required = true)]RegisterUserRequest registerUserRequest, 
             CancellationToken cancellationToken = new())
         {
-            return Ok(await _mediator.Send(new RegisterUserCommand(registerUserDto), cancellationToken));
+            await _mediator.Send(new RegisterUserCommand(registerUserRequest), cancellationToken);
+            return Ok();
         }
     }
 }

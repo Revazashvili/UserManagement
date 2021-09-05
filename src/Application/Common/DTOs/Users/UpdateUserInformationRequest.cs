@@ -1,18 +1,15 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
+﻿using Application.Common.Users.SwaggerSchemaFilters;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Application.Common.DTOs.Users
 {
-    [SwaggerSchema(ReadOnly = true,Required = new []{"User"})]
-    public class GetUserDto
+    [SwaggerSchemaFilter(typeof(UpdateUserInformationDtoSchemaFilter))]
+    public class UpdateUserInformationRequest
     {
-        [SwaggerSchema(ReadOnly = true,Required = new []{"The User Identifier"})]
-        public string Id { get; set; } = null!;
         [SwaggerSchema(ReadOnly = true,Required = new []{"The User Email"})]
-        public string Email { get; set; } = null!;
-        [SwaggerSchema(ReadOnly = true,Required = new []{"The User UserName"})]
-        public string UserName { get; set; } = null!;
+        public string Email { get; set; }
         [SwaggerSchema(ReadOnly = true,Required = new []{"The User Personal Number"})]
-        public string Pin { get; set; } = null!;
+        public string Pin { get; set; }
         [SwaggerSchema(ReadOnly = true,Required = new []{"The Flag Indicating If User is Married"})]
         public bool IsMarried { get; set; }
         [SwaggerSchema(ReadOnly = true,Required = new []{"The Flag Indicating If User is Employed"})]
@@ -20,6 +17,6 @@ namespace Application.Common.DTOs.Users
         [SwaggerSchema(ReadOnly = true,Required = new []{"The User Compensation"})]
         public double? Compensation { get; set; }
         [SwaggerSchema(ReadOnly = true,Required = new []{"The User Physical Address"})]
-        public string Address { get; set; } = null!;
+        public string Address { get; set; }
     }
 }

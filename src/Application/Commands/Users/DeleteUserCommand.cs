@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ namespace Application.Commands.Users
         public async Task<IResponse<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            if (user is null) throw new Exception("Can't find user with provided id");
+            if (user is null) throw new UserNotFoundException();
             var deleteResult = await _userManager.DeleteAsync(user);
             return new Response<bool>(deleteResult.Succeeded, deleteResult.Succeeded);
         }

@@ -44,7 +44,12 @@ namespace Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IApplicationDbContext>(x => x.GetService<ApplicationDbContext>()!);
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<IAccessTokenService, AccessTokenService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<IRefreshTokenValidator, RefreshTokenValidator>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
         }
     }
 }

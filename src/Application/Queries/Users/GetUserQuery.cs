@@ -13,18 +13,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Users
 {
-    public record GetUserQuery(Expression<Func<User,bool>> Predicate) : IRequestWrapper<GetUserDto>{}
+    public record GetUserQuery(Expression<Func<User,bool>> Predicate) : IRequestWrapper<GetUserRequest>{}
     
-    public class GetUserQueryHandler : IHandlerWrapper<GetUserQuery,GetUserDto>
+    public class GetUserQueryHandler : IHandlerWrapper<GetUserQuery,GetUserRequest>
     {
         private readonly UserManager<User> _userManager;
 
         public GetUserQueryHandler(UserManager<User> userManager) => _userManager = userManager;
 
-        public async Task<IResponse<GetUserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<IResponse<GetUserRequest>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(request.Predicate, cancellationToken);
-            return Response.Success(user.Adapt<GetUserDto>());
+            return Response.Success(user.Adapt<GetUserRequest>());
         }
     }
 }

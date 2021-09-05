@@ -17,7 +17,7 @@ namespace API.Endpoints.Users
     [Route(UserRoutes.Get)]
     public class Get : BaseAsyncEndpoint
         .WithoutRequest
-        .WithResponse<IResponse<IReadOnlyList<GetUserDto>>>
+        .WithResponse<IResponse<IReadOnlyList<GetUserRequest>>>
     {
         private readonly IMediator _mediator;
         public Get(IMediator mediator) => _mediator = mediator;
@@ -27,12 +27,12 @@ namespace API.Endpoints.Users
             Summary = "Returns all user",
             OperationId = "User.Get",
             Tags = new []{ "User" })]
-        [SwaggerResponse(200,"All user from database",typeof(IResponse<IReadOnlyList<GetUserDto>>))]
-        [SwaggerResponse(400,"No User can't be found",typeof(IResponse<IReadOnlyList<GetUserDto>>))]
+        [SwaggerResponse(200,"All user from database",typeof(IResponse<IReadOnlyList<GetUserRequest>>))]
+        [SwaggerResponse(400,"No User can't be found",typeof(IResponse<IReadOnlyList<GetUserRequest>>))]
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-        public override async Task<ActionResult<IResponse<IReadOnlyList<GetUserDto>>>> HandleAsync(CancellationToken cancellationToken = new())
+        public override async Task<ActionResult<IResponse<IReadOnlyList<GetUserRequest>>>> HandleAsync(CancellationToken cancellationToken = new())
         {
             return Ok(await _mediator.Send(new GetAllUserQuery(),cancellationToken));
         }

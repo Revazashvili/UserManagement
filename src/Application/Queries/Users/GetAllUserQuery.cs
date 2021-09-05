@@ -11,19 +11,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Users
 {
-    public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserDto>>{}
+    public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserRequest>>{}
 
-    public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserDto>>
+    public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserRequest>>
     {
         private readonly UserManager<User> _userManager;
         public GetAllUserQueryHandler(UserManager<User> userManager) => _userManager = userManager;
 
-        public async Task<IResponse<IReadOnlyList<GetUserDto>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
+        public async Task<IResponse<IReadOnlyList<GetUserRequest>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
         {
             var users = await _userManager.Users
-                .ProjectToType<GetUserDto>()
+                .ProjectToType<GetUserRequest>()
                 .ToListAsync(cancellationToken);
-            return Response.Success<IReadOnlyList<GetUserDto>>(users);
+            return Response.Success<IReadOnlyList<GetUserRequest>>(users);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace API.Endpoints.Users
 {
     [Route(UserRoutes.UpdateInfo)]
     public class UpdateUserInformation : BaseAsyncEndpoint
-        .WithRequest<UpdateUserInformationDto>
+        .WithRequest<UpdateUserInformationRequest>
         .WithResponse<bool>
     {
         private readonly IMediator _mediator;
@@ -34,10 +34,10 @@ namespace API.Endpoints.Users
         [Consumes("application/json")]
         [Authorize(JwtBearerDefaults.AuthenticationScheme)]
         public override async Task<ActionResult<bool>> HandleAsync(
-            [FromBody,SwaggerRequestBody("Update user information payload")]UpdateUserInformationDto updateUserInformationDto, 
+            [FromBody,SwaggerRequestBody("Update user information payload")]UpdateUserInformationRequest updateUserInformationRequest, 
             CancellationToken cancellationToken = new())
         {
-            return Ok(await _mediator.Send(new UpdateUserInformationCommand(updateUserInformationDto),
+            return Ok(await _mediator.Send(new UpdateUserInformationCommand(updateUserInformationRequest),
                 cancellationToken));
         }
     }

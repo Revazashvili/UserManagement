@@ -16,7 +16,7 @@ namespace API.Endpoints.Users
     [Route(UserRoutes.GetById)]
     public class GetById : BaseAsyncEndpoint
         .WithRequest<string>
-        .WithResponse<IResponse<GetUserDto>>
+        .WithResponse<IResponse<GetUserRequest>>
     {
         private readonly IMediator _mediator;
 
@@ -27,12 +27,12 @@ namespace API.Endpoints.Users
             Summary = "Returns user by id",
             OperationId = "User.GetById",
             Tags = new []{ "User" })]
-        [SwaggerResponse(200,"User based on id",typeof(IResponse<GetUserDto>))]
-        [SwaggerResponse(400,"No User can't be found with provided id",typeof(IResponse<GetUserDto>))]
+        [SwaggerResponse(200,"User based on id",typeof(IResponse<GetUserRequest>))]
+        [SwaggerResponse(400,"No User can't be found with provided id",typeof(IResponse<GetUserRequest>))]
         [Produces("application/json")]
         [Consumes("application/json")]
         [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-        public override async Task<ActionResult<IResponse<GetUserDto>>> HandleAsync(
+        public override async Task<ActionResult<IResponse<GetUserRequest>>> HandleAsync(
             [FromQuery,SwaggerParameter("User id",Required = true)]string id, 
             CancellationToken cancellationToken = new())
         {

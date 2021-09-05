@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Common.Validators.Users
 {
-    public class UpdateUserInformationDtoValidator : AbstractValidator<UpdateUserInformationDto>
+    public class UpdateUserInformationDtoValidator : AbstractValidator<UpdateUserInformationRequest>
     {
         private readonly UserManager<User> _userManager;
 
