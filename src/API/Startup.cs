@@ -76,8 +76,7 @@ namespace API
                         ValidateLifetime = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.AccessTokenSecret)),
                         ValidIssuer = jwtSettings.Issuer,
-                        ValidAudience = jwtSettings.Audience,
-                        ClockSkew = TimeSpan.Zero
+                        ValidAudience = jwtSettings.Audience
                     };
                 });
             
