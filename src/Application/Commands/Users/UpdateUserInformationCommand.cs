@@ -5,6 +5,7 @@ using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
 using Domain.Exceptions;
+using Forbids;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 
@@ -16,15 +17,17 @@ namespace Application.Commands.Users
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly IForbid _forbid;
 
-        public UpdateUserInformationCommandHandler(UserManager<User> userManager, IMapper mapper) =>
-            (_userManager, _mapper) = (userManager, mapper);
+        public UpdateUserInformationCommandHandler(UserManager<User> userManager, IMapper mapper, IForbid forbid) =>
+            (_userManager, _mapper, _forbid) = (userManager, mapper, forbid);
         
+
         public async Task<IResponse<bool>> Handle(UpdateUserInformationCommand request, CancellationToken cancellationToken)
         {
             var updateInfoDto = request.UpdateUserInformationRequest;
             var user = await _userManager.FindByEmailAsync(updateInfoDto.Email);
-            if (user is null) throw new UserNotFoundException();
+            _forbid.Null(user, new UserNotFoundException());
             _mapper.Map(updateInfoDto,user);
             var updateResult= await _userManager.UpdateAsync(user);
             return new Response<bool>(updateResult.Succeeded, updateResult.Succeeded);

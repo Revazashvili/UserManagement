@@ -31,7 +31,7 @@ namespace Infrastructure.Services
             try
             {
                 jwtSecurityTokenHandler.ValidateToken(refreshToken, validationParameters,
-                    out SecurityToken validatedToken);
+                    out SecurityToken _);
                 return true;
             }
             catch (Exception)
