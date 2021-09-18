@@ -26,7 +26,7 @@ namespace API.Endpoints.Auth
             Summary = "LogOut",
             OperationId = "Auth.LogOut",
             Tags = new []{ "Auth" })]
-        [SwaggerResponse(200,"User Logged out successfully")]
+        [SwaggerResponse(204,"User Logged out successfully")]
         [SwaggerResponse(400,"User with provided id can not be found")]
         [Produces("application/json")]
         [Consumes("application/json")]

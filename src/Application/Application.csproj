@@ -8,6 +8,8 @@
     <ItemGroup>
       <PackageReference Include="FluentValidation" Version="10.3.0" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.0" />
+      <PackageReference Include="Forbid" Version="1.0.0" />
+      <PackageReference Include="Forbid.Extensions.Microsoft.DependencyInjection" Version="1.0.0" />
       <PackageReference Include="Mapster" Version="7.2.0" />
       <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
       <PackageReference Include="Mapster.EFCore" Version="5.1.0" />

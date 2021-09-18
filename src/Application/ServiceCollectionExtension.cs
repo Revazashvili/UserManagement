@@ -1,6 +1,7 @@
 using System.Reflection;
 using Application.Common.Behaviours;
 using FluentValidation;
+using Forbids;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -29,6 +30,7 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TaskCanceledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
+            services.AddForbids();
         }
     }
 }

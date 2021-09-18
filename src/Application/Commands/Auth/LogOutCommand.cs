@@ -7,6 +7,7 @@ using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
 using Domain.Exceptions;
+using Forbids;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -21,18 +22,21 @@ namespace Application.Commands.Auth
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SignInManager<User> _signInManager;
         private readonly IApplicationDbContext _context;
+        private readonly IForbid _forbid;
 
-        public LogOutCommandHandler(IHttpContextAccessor httpContextAccessor,SignInManager<User> signInManager,IApplicationDbContext context)
+        public LogOutCommandHandler(IHttpContextAccessor httpContextAccessor,SignInManager<User> signInManager,
+            IApplicationDbContext context,IForbid forbid)
         {
             _httpContextAccessor = httpContextAccessor;
             _signInManager = signInManager;
             _context = context;
+            _forbid = forbid;
         }
 
         public async Task<IResponse<Unit>> Handle(LogOutCommand request, CancellationToken cancellationToken)
         {
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue("id");
-            if (string.IsNullOrEmpty(userId)) throw new UserNotFoundException();
+            _forbid.NullOrEmpty(userId, new UserNotFoundException());
             await _signInManager.SignOutAsync();
             var refreshTokens = await _context.RefreshTokens
                 .Where(x => x.UserId == userId)
