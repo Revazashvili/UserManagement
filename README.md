@@ -25,6 +25,7 @@ This layer is a Web API based on ASP.NET Core 5. This layer depends on both the 
 * [Serilog](https://serilog.net/)
 * [JWT](https://jwt.io/)
 * [Ardalis.ApiEndpoints](https://github.com/ardalis/ApiEndpoints)
+* [Forbid](https://github.com/Revazashvili/Forbid)
 
 ### Database Configuration
 
