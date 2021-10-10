@@ -29,7 +29,14 @@ namespace Infrastructure
                 services.AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                        builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                        builder =>
+                        {
+                            builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                            //EF allows you to specify that a given LINQ query should be split into multiple SQL queries.
+                            //Instead of JOINs, split queries generate an additional SQL query for each included collection navigation
+                            //More about that: https://docs.microsoft.com/en-us/ef/core/querying/single-split-queries
+                            builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        });
                 });
             }
 
