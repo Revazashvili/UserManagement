@@ -15,8 +15,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth;
 
-public record LogOutCommand : IRequestWrapper<Unit>{}
-    
+public record LogOutCommand : IRequestWrapper<Unit>;
+
 public class LogOutCommandHandler : IHandlerWrapper<LogOutCommand,Unit>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -36,7 +36,7 @@ public class LogOutCommandHandler : IHandlerWrapper<LogOutCommand,Unit>
     public async Task<IResponse<Unit>> Handle(LogOutCommand request, CancellationToken cancellationToken)
     {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue("id");
-        _forbid.NullOrEmpty(userId, new UserNotFoundException());
+        _forbid.NullOrEmpty(userId, UserNotFoundException.Instance);
         await _signInManager.SignOutAsync();
         var refreshTokens = await _context.RefreshTokens
             .Where(x => x.UserId == userId)

@@ -4,5 +4,6 @@ namespace Domain.Exceptions;
 
 public class InvalidRefreshTokenException : Exception
 {
-    public InvalidRefreshTokenException() : base("Refresh token is not valid.") { }
+    private InvalidRefreshTokenException() : base("Refresh token is not valid.") { }
+    public static InvalidRefreshTokenException Instance { get; } = new();
 }

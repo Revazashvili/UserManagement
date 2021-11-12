@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Auth;
 
-public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRequestWrapper<Unit>{}
-    
+public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRequestWrapper<Unit>;
+
 public class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
 {
     private readonly UserManager<User> _userManager;
@@ -25,7 +25,7 @@ public class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Un
     {
         var user = new User(request.RegisterUserRequest.Email);
         var createResult = await _userManager.CreateAsync(user, request.RegisterUserRequest.Password);
-        _forbid.False(createResult.Succeeded, new RegisterException());
+        _forbid.False(createResult.Succeeded, RegisterException.Instance);
         return Response.Success(Unit.Value);
     }
 }

@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users;
 
-public record UpdateUserInformationCommand(UpdateUserInformationRequest UpdateUserInformationRequest) : IRequestWrapper<bool>{}
+public record UpdateUserInformationCommand
+    (UpdateUserInformationRequest UpdateUserInformationRequest) : IRequestWrapper<bool>;
 
 public class UpdateUserInformationCommandHandler : IHandlerWrapper<UpdateUserInformationCommand, bool>
 {
@@ -27,7 +28,7 @@ public class UpdateUserInformationCommandHandler : IHandlerWrapper<UpdateUserInf
     {
         var updateInfoDto = request.UpdateUserInformationRequest;
         var user = await _userManager.FindByEmailAsync(updateInfoDto.Email);
-        _forbid.Null(user, new UserNotFoundException());
+        _forbid.Null(user, UserNotFoundException.Instance);
         _mapper.Map(updateInfoDto,user);
         var updateResult= await _userManager.UpdateAsync(user);
         return new Response<bool>(updateResult.Succeeded, updateResult.Succeeded);

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Users;
 
-public record DeleteUserCommand(string Id) : IRequestWrapper<bool>{}
+public record DeleteUserCommand(string Id) : IRequestWrapper<bool>;
     
 public class DeleteUserCommandHandler : IHandlerWrapper<DeleteUserCommand,bool>
 {
@@ -23,7 +23,7 @@ public class DeleteUserCommandHandler : IHandlerWrapper<DeleteUserCommand,bool>
     public async Task<IResponse<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-        _forbid.Null(user, new UserNotFoundException());
+        _forbid.Null(user, UserNotFoundException.Instance);
         var deleteResult = await _userManager.DeleteAsync(user);
         return new Response<bool>(deleteResult.Succeeded, deleteResult.Succeeded);
     }

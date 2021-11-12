@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Auth;
 
-public record LoginUserCommand(LoginUserRequest LoginUserRequest) : IRequestWrapper<AuthenticateResponse>{}
+public record LoginUserCommand(LoginUserRequest LoginUserRequest) : IRequestWrapper<AuthenticateResponse>;
     
 public class LoginUserCommandHandler : IHandlerWrapper<LoginUserCommand,AuthenticateResponse>
 {
@@ -32,10 +32,10 @@ public class LoginUserCommandHandler : IHandlerWrapper<LoginUserCommand,Authenti
     public async Task<IResponse<AuthenticateResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.LoginUserRequest.Email);
-        _forbid.Null(user, new UserNotFoundException());
+        _forbid.Null(user, UserNotFoundException.Instance);
         var signInResult =
             await _signInManager.PasswordSignInAsync(user, request.LoginUserRequest.Password, false, false);
-        _forbid.False(signInResult.Succeeded, new SignInException());
+        _forbid.False(signInResult.Succeeded, SignInException.Instance);
         return Response.Success(await _authenticateService.Authenticate(user, cancellationToken));
     }
 }

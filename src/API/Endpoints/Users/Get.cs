@@ -21,19 +21,16 @@ public class Get : BaseAsyncEndpoint
 {
     private readonly IMediator _mediator;
     public Get(IMediator mediator) => _mediator = mediator;
-        
-    [HttpGet]
-    [SwaggerOperation(Description = "Returns all user",
-        Summary = "Returns all user",
-        OperationId = "User.Get",
-        Tags = new []{ "User" })]
-    [SwaggerResponse(200,"All user from database",typeof(IResponse<IReadOnlyList<GetUserRequest>>))]
-    [SwaggerResponse(400,"No User can't be found",typeof(IResponse<IReadOnlyList<GetUserRequest>>))]
-    [Produces("application/json")]
-    [Consumes("application/json")]
-    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-    public override async Task<ActionResult<IResponse<IReadOnlyList<GetUserRequest>>>> HandleAsync(CancellationToken cancellationToken = new())
-    {
-        return Ok(await _mediator.Send(new GetAllUserQuery(),cancellationToken));
-    }
+
+    [HttpGet, SwaggerOperation(Description = "Returns all user",
+         Summary = "Returns all user",
+         OperationId = "User.Get",
+         Tags = new[] { "User" }),
+     SwaggerResponse(200, "All user from database", typeof(IResponse<IReadOnlyList<GetUserRequest>>)),
+     SwaggerResponse(400, "No User can't be found", typeof(IResponse<IReadOnlyList<GetUserRequest>>)),
+     Produces("application/json"), Consumes("application/json"),
+     Authorize(JwtBearerDefaults.AuthenticationScheme)]
+    public override async Task<ActionResult<IResponse<IReadOnlyList<GetUserRequest>>>>
+        HandleAsync(CancellationToken cancellationToken = new()) =>
+        Ok(await _mediator.Send(new GetAllUserQuery(), cancellationToken));
 }

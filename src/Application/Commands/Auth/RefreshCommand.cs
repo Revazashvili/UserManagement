@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth;
 
-public record RefreshCommand(RefreshRequest RefreshRequest) : IRequestWrapper<AuthenticateResponse>{}
-    
+public record RefreshCommand(RefreshRequest RefreshRequest) : IRequestWrapper<AuthenticateResponse>;
+
 public class RefreshCommandHandler : IHandlerWrapper<RefreshCommand,AuthenticateResponse>
 {
     private readonly IAuthenticateService _authenticateService;
@@ -36,16 +36,16 @@ public class RefreshCommandHandler : IHandlerWrapper<RefreshCommand,Authenticate
     {
         var refreshRequest = request.RefreshRequest;
         var isValidRefreshToken = _refreshTokenValidator.Validate(refreshRequest.RefreshToken);
-        _forbid.False(isValidRefreshToken, new InvalidRefreshTokenException());
+        _forbid.False(isValidRefreshToken, InvalidRefreshTokenException.Instance);
         var refreshToken =
             await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == refreshRequest.RefreshToken,
                 cancellationToken);
-        _forbid.Null(refreshToken, new InvalidRefreshTokenException());
+        _forbid.Null(refreshToken, InvalidRefreshTokenException.Instance);
         _context.RefreshTokens.Remove(refreshToken);
         await _context.SaveChangesAsync(cancellationToken);
             
         var user = await _userManager.FindByIdAsync(refreshToken.UserId);
-        _forbid.Null(user, new UserNotFoundException());
+        _forbid.Null(user, UserNotFoundException.Instance);
         return Response.Success(await _authenticateService.Authenticate(user, cancellationToken));
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviours;
 
-public class LoggingBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse>
+public class LoggingBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse> where TRequest : notnull
 {
     private readonly ILogger<TRequest> _logger;
 

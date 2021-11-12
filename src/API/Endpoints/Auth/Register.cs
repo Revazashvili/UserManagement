@@ -19,21 +19,18 @@ public class Register : BaseAsyncEndpoint
     private readonly IMediator _mediator;
 
     public Register(IMediator mediator) => _mediator = mediator;
-        
-    [HttpPost]
-    [SwaggerOperation(Description = "Register new user and returns token",
-        Summary = "Register new user",
-        OperationId = "Auth.Register",
-        Tags = new []{ "Auth" })]
-    [SwaggerResponse(200,"User registered successfully")]
-    [SwaggerResponse(400,"Some error occured during registration")]
-    [Produces("application/json")]
-    [Consumes("application/json")]
+
+    [HttpPost, SwaggerOperation(Description = "Register new user and returns token",
+         Summary = "Register new user",
+         OperationId = "Auth.Register",
+         Tags = new[] { "Auth" }), 
+     SwaggerResponse(200, "User registered successfully"),
+     SwaggerResponse(400, "Some error occured during registration"), 
+     Produces("application/json"),
+     Consumes("application/json")]
     public override async Task<ActionResult> HandleAsync(
-        [SwaggerRequestBody("User register payload",Required = true)]RegisterUserRequest registerUserRequest, 
-        CancellationToken cancellationToken = new())
-    {
-        await _mediator.Send(new RegisterUserCommand(registerUserRequest), cancellationToken);
-        return Ok();
-    }
+        [SwaggerRequestBody("User register payload", Required = true)]
+        RegisterUserRequest registerUserRequest,
+        CancellationToken cancellationToken = new()) =>
+        Ok(await _mediator.Send(new RegisterUserCommand(registerUserRequest), cancellationToken));
 }

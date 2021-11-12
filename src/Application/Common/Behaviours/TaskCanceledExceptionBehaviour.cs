@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviours;
 
-public class TaskCanceledExceptionBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse>
+public class TaskCanceledExceptionBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse> where TRequest : notnull
 {
     private readonly ILogger<TRequest> _logger;
 

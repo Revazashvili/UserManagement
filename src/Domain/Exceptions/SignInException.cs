@@ -4,5 +4,9 @@ namespace Domain.Exceptions;
 
 public class SignInException : Exception
 {
-    public SignInException() : base("Error occured while signing in user") { }
+    private SignInException() : base("Error occured while signing in user")
+    {
+    }
+
+    public static SignInException Instance { get; } = new();
 }

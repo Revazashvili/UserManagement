@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Users;
 
-public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserRequest>>{}
+public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserRequest>>;
 
 public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserRequest>>
 {
@@ -28,7 +28,7 @@ public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyL
         var users = await _userManager.Users
             .ProjectToType<GetUserRequest>()
             .ToListAsync(cancellationToken);
-        _forbid.NullOrEmpty(users, new UserNotFoundException());
+        _forbid.NullOrEmpty(users, UserNotFoundException.Instance);
         return Response.Success<IReadOnlyList<GetUserRequest>>(users);
     }
 }

@@ -15,8 +15,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Users;
 
-public record GetUserQuery(Expression<Func<User,bool>> Predicate) : IRequestWrapper<GetUserRequest>{}
-    
+public record GetUserQuery(Expression<Func<User,bool>> Predicate) : IRequestWrapper<GetUserRequest>;
+
 public class GetUserQueryHandler : IHandlerWrapper<GetUserQuery,GetUserRequest>
 {
     private readonly UserManager<User> _userManager;
@@ -28,7 +28,7 @@ public class GetUserQueryHandler : IHandlerWrapper<GetUserQuery,GetUserRequest>
     public async Task<IResponse<GetUserRequest>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(request.Predicate, cancellationToken);
-        _forbid.Null(user, new UserNotFoundException());
+        _forbid.Null(user, UserNotFoundException.Instance);
         return Response.Success(user.Adapt<GetUserRequest>());
     }
 }

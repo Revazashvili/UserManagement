@@ -21,21 +21,17 @@ public class GetById : BaseAsyncEndpoint
     private readonly IMediator _mediator;
 
     public GetById(IMediator mediator) => _mediator = mediator;
-        
-    [HttpGet]
-    [SwaggerOperation(Description = "Returns user by id",
-        Summary = "Returns user by id",
-        OperationId = "User.GetById",
-        Tags = new []{ "User" })]
-    [SwaggerResponse(200,"User based on id",typeof(IResponse<GetUserRequest>))]
-    [SwaggerResponse(400,"No User can't be found with provided id",typeof(IResponse<GetUserRequest>))]
-    [Produces("application/json")]
-    [Consumes("application/json")]
-    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+
+    [HttpGet, SwaggerOperation(Description = "Returns user by id",
+         Summary = "Returns user by id",
+         OperationId = "User.GetById",
+         Tags = new[] { "User" }), SwaggerResponse(200, "User based on id", typeof(IResponse<GetUserRequest>)),
+     SwaggerResponse(400, "No User can't be found with provided id", typeof(IResponse<GetUserRequest>)),
+     Produces("application/json"), Consumes("application/json"),
+     Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public override async Task<ActionResult<IResponse<GetUserRequest>>> HandleAsync(
-        [FromQuery,SwaggerParameter("User id",Required = true)]string id, 
-        CancellationToken cancellationToken = new())
-    {
-        return Ok(await _mediator.Send(new GetUserQuery(x => x.Id == id), cancellationToken));
-    }
+        [FromQuery, SwaggerParameter("User id", Required = true)]
+        string id,
+        CancellationToken cancellationToken = new()) =>
+        Ok(await _mediator.Send(new GetUserQuery(x => x.Id == id), cancellationToken));
 }
