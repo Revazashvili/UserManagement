@@ -11,25 +11,24 @@ using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Queries.Users
+namespace Application.Queries.Users;
+
+public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserRequest>>{}
+
+public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserRequest>>
 {
-    public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserRequest>>{}
+    private readonly UserManager<User> _userManager;
+    private readonly IForbid _forbid;
 
-    public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserRequest>>
+    public GetAllUserQueryHandler(UserManager<User> userManager, IForbid forbid) =>
+        (_userManager, _forbid) = (userManager, forbid);
+
+    public async Task<IResponse<IReadOnlyList<GetUserRequest>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IForbid _forbid;
-
-        public GetAllUserQueryHandler(UserManager<User> userManager, IForbid forbid) =>
-            (_userManager, _forbid) = (userManager, forbid);
-
-        public async Task<IResponse<IReadOnlyList<GetUserRequest>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
-        {
-            var users = await _userManager.Users
-                .ProjectToType<GetUserRequest>()
-                .ToListAsync(cancellationToken);
-            _forbid.NullOrEmpty(users, new UserNotFoundException());
-            return Response.Success<IReadOnlyList<GetUserRequest>>(users);
-        }
+        var users = await _userManager.Users
+            .ProjectToType<GetUserRequest>()
+            .ToListAsync(cancellationToken);
+        _forbid.NullOrEmpty(users, new UserNotFoundException());
+        return Response.Success<IReadOnlyList<GetUserRequest>>(users);
     }
 }

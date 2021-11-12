@@ -2,17 +2,16 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Application.Common.SwaggerSchemaFilters.Auth
+namespace Application.Common.SwaggerSchemaFilters.Auth;
+
+public class LoginUserDtoSchemaFilter : ISchemaFilter
 {
-    public class LoginUserDtoSchemaFilter : ISchemaFilter
+    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        schema.Example = new OpenApiObject
         {
-            schema.Example = new OpenApiObject
-            {
-                ["Email"] = new OpenApiString("test@test.ge"),
-                ["Password"] = new OpenApiString("yourstringpassword")
-            };
-        }
+            ["Email"] = new OpenApiString("test@test.ge"),
+            ["Password"] = new OpenApiString("yourstringpassword")
+        };
     }
 }

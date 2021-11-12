@@ -1,5 +1,4 @@
-﻿namespace Application.Common.Interfaces
-{
-    /// <inheritdoc cref="ITokenService"/>
-    public interface IRefreshTokenService : ITokenService { }
-}
+﻿namespace Application.Common.Interfaces;
+
+/// <inheritdoc cref="ITokenService"/>
+public interface IRefreshTokenService : ITokenService { }

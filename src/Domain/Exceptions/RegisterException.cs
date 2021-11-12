@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Domain.Exceptions
+namespace Domain.Exceptions;
+
+public class RegisterException : Exception
 {
-    public class RegisterException : Exception
-    {
-        public RegisterException() : base("Error occured while registering user.") { }
-    }
+    public RegisterException() : base("Error occured while registering user.") { }
 }

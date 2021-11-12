@@ -4,30 +4,29 @@ using Application.Common.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Common.Behaviours
+namespace Application.Common.Behaviours;
+
+public class TaskCanceledExceptionBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse>
 {
-    public class TaskCanceledExceptionBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse>
+    private readonly ILogger<TRequest> _logger;
+
+    public TaskCanceledExceptionBehaviour(ILogger<TRequest> logger)
     {
-        private readonly ILogger<TRequest> _logger;
+        _logger = logger;
+    }
 
-        public TaskCanceledExceptionBehaviour(ILogger<TRequest> logger)
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    {
+        try
         {
-            _logger = logger;
+            return await next();
         }
-
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        catch (TaskCanceledException taskCanceledException)
         {
-            try
-            {
-                return await next();
-            }
-            catch (TaskCanceledException taskCanceledException)
-            {
-                var requestName = typeof(TRequest).Name;
-                _logger.LogError(taskCanceledException, "Request: Task Canceled Exception for Request {Name} {@Request}", 
-                    requestName, Response.Fail<string>($"Task Canceled Exception: {request}"));
-                throw;
-            }
+            var requestName = typeof(TRequest).Name;
+            _logger.LogError(taskCanceledException, "Request: Task Canceled Exception for Request {Name} {@Request}", 
+                requestName, Response.Fail<string>($"Task Canceled Exception: {request}"));
+            throw;
         }
     }
 }

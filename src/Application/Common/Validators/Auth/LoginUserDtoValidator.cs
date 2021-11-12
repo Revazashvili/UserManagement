@@ -1,18 +1,17 @@
 ﻿using Application.Common.DTOs.Auth;
 using FluentValidation;
 
-namespace Application.Common.Validators.Auth
+namespace Application.Common.Validators.Auth;
+
+public class LoginUserDtoValidator : AbstractValidator<LoginUserRequest>
 {
-    public class LoginUserDtoValidator : AbstractValidator<LoginUserRequest>
+    public LoginUserDtoValidator()
     {
-        public LoginUserDtoValidator()
-        {
-            RuleFor(x => x.Email)
-                .NotEmpty().NotNull()
-                .EmailAddress();
-            RuleFor(x => x.Password)
-                .NotEmpty()
-                .NotNull();
-        }
+        RuleFor(x => x.Email)
+            .NotEmpty().NotNull()
+            .EmailAddress();
+        RuleFor(x => x.Password)
+            .NotEmpty()
+            .NotNull();
     }
 }

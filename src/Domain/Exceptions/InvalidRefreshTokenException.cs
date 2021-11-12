@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Domain.Exceptions
+namespace Domain.Exceptions;
+
+public class InvalidRefreshTokenException : Exception
 {
-    public class InvalidRefreshTokenException : Exception
-    {
-        public InvalidRefreshTokenException() : base("Refresh token is not valid.") { }
-    }
+    public InvalidRefreshTokenException() : base("Refresh token is not valid.") { }
 }

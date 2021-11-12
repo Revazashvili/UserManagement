@@ -1,10 +1,9 @@
-﻿namespace API.Routes
+﻿namespace API.Routes;
+
+public static class AuthRoutes
 {
-    public static class AuthRoutes
-    {
-        public const string Register = "api/Auth/Register";
-        public const string Login = "api/Auth/Login";
-        public const string Refresh = "api/Auth/Refresh";
-        public const string LogOut = "api/Auth/LogOut";
-    }
+    public const string Register = "api/Auth/Register";
+    public const string Login = "api/Auth/Login";
+    public const string Refresh = "api/Auth/Refresh";
+    public const string LogOut = "api/Auth/LogOut";
 }

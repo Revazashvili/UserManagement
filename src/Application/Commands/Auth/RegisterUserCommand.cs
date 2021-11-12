@@ -9,24 +9,23 @@ using Forbids;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.Commands.Auth
-{
-    public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRequestWrapper<Unit>{}
-    
-    public class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
-    {
-        private readonly UserManager<User> _userManager;
-        private readonly IForbid _forbid;
+namespace Application.Commands.Auth;
 
-        public RegisterUserCommandHandler(UserManager<User> userManager, IForbid forbid) =>
-            (_userManager, _forbid) = (userManager, forbid);
+public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRequestWrapper<Unit>{}
+    
+public class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
+{
+    private readonly UserManager<User> _userManager;
+    private readonly IForbid _forbid;
+
+    public RegisterUserCommandHandler(UserManager<User> userManager, IForbid forbid) =>
+        (_userManager, _forbid) = (userManager, forbid);
         
-        public async Task<IResponse<Unit>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
-        {
-            var user = new User(request.RegisterUserRequest.Email);
-            var createResult = await _userManager.CreateAsync(user, request.RegisterUserRequest.Password);
-            _forbid.False(createResult.Succeeded, new RegisterException());
-            return Response.Success(Unit.Value);
-        }
+    public async Task<IResponse<Unit>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    {
+        var user = new User(request.RegisterUserRequest.Email);
+        var createResult = await _userManager.CreateAsync(user, request.RegisterUserRequest.Password);
+        _forbid.False(createResult.Succeeded, new RegisterException());
+        return Response.Success(Unit.Value);
     }
 }

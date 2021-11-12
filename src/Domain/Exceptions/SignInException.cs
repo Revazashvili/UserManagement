@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Domain.Exceptions
+namespace Domain.Exceptions;
+
+public class SignInException : Exception
 {
-    public class SignInException : Exception
-    {
-        public SignInException() : base("Error occured while signing in user") { }
-    }
+    public SignInException() : base("Error occured while signing in user") { }
 }

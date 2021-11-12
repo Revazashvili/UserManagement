@@ -6,38 +6,37 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Common.Behaviours
+namespace Application.Common.Behaviours;
+
+public class PerformanceBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse>
 {
-    public class PerformanceBehaviour<TRequest,TResponse> : IPipelineBehavior<TRequest,TResponse>
+    private readonly ILogger<TRequest> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly Stopwatch _timer;
+
+    public PerformanceBehaviour(ILogger<TRequest> logger,IConfiguration configuration)
     {
-        private readonly ILogger<TRequest> _logger;
-        private readonly IConfiguration _configuration;
-        private readonly Stopwatch _timer;
+        _logger = logger;
+        _configuration = configuration;
+        _timer = new();
+    }
 
-        public PerformanceBehaviour(ILogger<TRequest> logger,IConfiguration configuration)
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    {
+        _timer.Start();
+            
+        var response = await next();
+            
+        _timer.Stop();
+            
+        var longRunningRequestTime = Convert.ToInt32(_configuration.GetSection("LongRunningRequestTime").Value);
+        var elapsedMilliseconds = _timer.ElapsedMilliseconds;
+        if (elapsedMilliseconds > longRunningRequestTime)
         {
-            _logger = logger;
-            _configuration = configuration;
-            _timer = new();
+            _logger.LogWarning("Long Running Request {Name} ({ElapsedMilliseconds} milliseconds) {@request}",
+                typeof(TRequest).Name,elapsedMilliseconds,request);
         }
-
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
-        {
-            _timer.Start();
             
-            var response = await next();
-            
-            _timer.Stop();
-            
-            var longRunningRequestTime = Convert.ToInt32(_configuration.GetSection("LongRunningRequestTime").Value);
-            var elapsedMilliseconds = _timer.ElapsedMilliseconds;
-            if (elapsedMilliseconds > longRunningRequestTime)
-            {
-                _logger.LogWarning("Long Running Request {Name} ({ElapsedMilliseconds} milliseconds) {@request}",
-                    typeof(TRequest).Name,elapsedMilliseconds,request);
-            }
-            
-            return response;
-        }
+        return response;
     }
 }

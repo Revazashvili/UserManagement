@@ -2,14 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configuration
+namespace Infrastructure.Persistence.Configuration;
+
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            builder.HasIndex(x => x.Pin).IsUnique();
-            builder.Property(x => x.Pin).HasMaxLength(11).IsFixedLength();
-        }
+        builder.HasIndex(x => x.Pin).IsUnique();
+        builder.Property(x => x.Pin).HasMaxLength(11).IsFixedLength();
     }
 }
