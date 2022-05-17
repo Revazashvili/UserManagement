@@ -41,7 +41,7 @@ Verify that the **DefaultConnection** connection string within **appsettings.jso
 
 When you run the application the database will be automatically created (if necessary) and the latest migrations will be applied.
 
-#SQL Server In Docker 
+# SQL Server In Docker 
 #### Run container
 ```dockerfile
 docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=yourStrong(!)Password' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest
