@@ -31,6 +31,7 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.5" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
+        <PackageReference Include="Netjection" Version="1.0.6" />
     </ItemGroup>
 
     <ItemGroup>

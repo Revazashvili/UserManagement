@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using Application.Common.DTOs.Auth;
 using Domain.Entities;
+using Netjection;
 
 namespace Application.Common.Interfaces;
 
 /// <summary>
 /// Interface for authentication.
 /// </summary>
+[InjectAsScoped]
 public interface IAuthenticateService
 {
     /// <summary>

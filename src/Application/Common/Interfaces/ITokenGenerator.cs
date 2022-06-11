@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
+using Netjection;
 
 namespace Application.Common.Interfaces;
 
 /// <summary>
 /// Interface for generating token.
 /// </summary>
+[InjectAsScoped]
 public interface ITokenGenerator
 {
     /// <summary>

@@ -1,5 +1,8 @@
-﻿namespace Application.Common.Settings;
+﻿using Netjection;
 
+namespace Application.Common.Settings;
+
+[Configure]
 public class JwtSettings
 {
     public string AccessTokenSecret { get; set; }

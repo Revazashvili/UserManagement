@@ -1,15 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using Application;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Common.Settings;
 using FluentValidation.AspNetCore;
 using Infrastructure;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Netjection;
 
 namespace API;
 
@@ -35,11 +37,10 @@ public class Startup
     private const string ApiCorsPolicy = "APICorsPolicy";
     public void ConfigureServices(IServiceCollection services)
     {
-        // bind jwt settings
-        var jwtSettings = new JwtSettings();
-        Configuration.Bind(nameof(JwtSettings), jwtSettings);
-        services.AddSingleton(jwtSettings);
-            
+        services.InjectServices(Assembly.GetAssembly(typeof(ITokenGenerator))!,
+            Assembly.GetAssembly(typeof(TokenGenerator))!, 
+            Assembly.GetExecutingAssembly());
+
         services.AddCors(options => options.AddPolicy(ApiCorsPolicy, builder =>
             builder.AllowAnyMethod()
                 .AllowAnyHeader()
@@ -66,6 +67,7 @@ public class Startup
             })
             .AddJwtBearer(x =>
             {
+                var jwtSettings = services.BuildServiceProvider().GetService<JwtSettings>()!;
                 x.SaveToken = true;
                 x.RequireHttpsMetadata = false;
                 x.TokenValidationParameters = new TokenValidationParameters
