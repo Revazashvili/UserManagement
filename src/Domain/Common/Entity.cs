@@ -3,11 +3,6 @@
 public abstract class Entity : IEntity
 {
     public long Id { get; set; }
-
-    protected Entity() { }
-
-    protected Entity(long id) { Id = id; }
-
     public override bool Equals(object? obj)
     {
         if (obj is not Entity other)
