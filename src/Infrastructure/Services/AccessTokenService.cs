@@ -16,7 +16,7 @@ public class AccessTokenService : IAccessTokenService
 
     public string Generate(User user)
     {
-        List<Claim>? claims = new()
+        List<Claim> claims = new()
         {
             new Claim("id", user.Id),
             new Claim(ClaimTypes.Email, user.Email),
