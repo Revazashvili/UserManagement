@@ -30,8 +30,7 @@ public class RefreshTokenValidator : IRefreshTokenValidator
         JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
         try
         {
-            jwtSecurityTokenHandler.ValidateToken(refreshToken, validationParameters,
-                out SecurityToken _);
+            jwtSecurityTokenHandler.ValidateToken(refreshToken, validationParameters, out var _);
             return true;
         }
         catch (Exception)
