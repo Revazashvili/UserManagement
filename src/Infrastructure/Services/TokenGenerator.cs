@@ -11,7 +11,7 @@ namespace Infrastructure.Services;
 /// <inheritdoc cref="ITokenGenerator"/>
 public class TokenGenerator : ITokenGenerator
 {
-    public string Generate(string secretKey, string issuer, string audience, double expires, IEnumerable<Claim> claims = null)
+    public string Generate(string secretKey, string issuer, string audience, double expires, IEnumerable<Claim>? claims = null)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

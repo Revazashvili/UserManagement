@@ -20,5 +20,5 @@ public interface ITokenGenerator
     /// <param name="claims"><see cref="IEnumerable{T}"/></param>
     /// <returns>Generated token.</returns>
     string Generate(string secretKey, string issuer, string audience, double expires,
-        IEnumerable<Claim> claims = null);
+        IEnumerable<Claim>? claims = null);
 }
