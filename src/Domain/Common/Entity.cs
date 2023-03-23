@@ -1,9 +1,5 @@
 ﻿namespace Domain.Common;
 
-public interface IEntity
-{
-    public long Id { get; set; }
-}
 public abstract class Entity : IEntity
 {
     public long Id { get; set; }
