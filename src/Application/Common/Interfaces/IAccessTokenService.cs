@@ -2,6 +2,8 @@
 
 namespace Application.Common.Interfaces;
 
-/// <inheritdoc cref="ITokenService"/>
+/// <summary>
+/// Interface for generating access token.
+/// </summary>
 [InjectAsScoped]
 public interface IAccessTokenService : ITokenService { }
