@@ -5,20 +5,31 @@ using Netjection;
 namespace Application.Common.Interfaces;
 
 /// <summary>
-/// Interface for generating token.
+/// A Request that contains information needed to generate a security token.
+/// </summary>
+/// <param name="SecretKey">The secret key to be used to encrypt the security token.</param>
+/// <param name="Issuer">The issuer of the security token.</param>
+/// <param name="Audience">The intended audience of the security token.</param>
+/// <param name="Expires">The duration in minutes for which the security token will be valid.</param>
+/// <param name="Claims">Optional claims to be included in the security token.</param>
+public record GenerateTokenRequest(string SecretKey, string Issuer, string Audience, double Expires, IEnumerable<Claim>? Claims = null);
+
+/// <summary>
+/// A Response that contains the generated security token.
+/// </summary>
+/// <param name="Token">The generated security token as a string.</param>
+public record GenerateTokenResponse(string Token);
+
+/// <summary>
+/// Interface for a token generator that generates security tokens.
 /// </summary>
 [InjectAsScoped]
 public interface ITokenGenerator
 {
     /// <summary>
-    /// Generates jwt token.
+    /// Generates a security token based on the provided request.
     /// </summary>
-    /// <param name="secretKey">The secret key for security.</param>
-    /// <param name="issuer">The issuer.</param>
-    /// <param name="audience">The audience.</param>
-    /// <param name="expires">The expire time.</param>
-    /// <param name="claims"><see cref="IEnumerable{T}"/></param>
-    /// <returns>Generated token.</returns>
-    string Generate(string secretKey, string issuer, string audience, double expires,
-        IEnumerable<Claim> claims = null);
+    /// <param name="generateTokenRequest">The request containing information about the token to be generated.</param>
+    /// <returns>The generated security token response.</returns>
+    GenerateTokenResponse Generate(GenerateTokenRequest generateTokenRequest);
 }

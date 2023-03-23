@@ -8,10 +8,7 @@ public class User : IdentityUser
     /// Initializes a new instance of <see cref="User"/>.
     /// </summary>
     /// <param name="email">The user email.</param>
-    public User(string email) : base(email)
-    {
-        Email = email;
-    }
+    public User(string email) : base(email) => Email = email;
 
     /// <summary>
     /// Gets or sets the Personal Number for this user.

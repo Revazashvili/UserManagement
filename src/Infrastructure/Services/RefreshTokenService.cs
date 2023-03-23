@@ -12,7 +12,8 @@ public class RefreshTokenService : IRefreshTokenService
     public RefreshTokenService(ITokenGenerator tokenGenerator, JwtSettings jwtSettings) =>
         (_tokenGenerator, _jwtSettings) = (tokenGenerator, jwtSettings);
 
-    public string Generate(User user) => _tokenGenerator.Generate(_jwtSettings.RefreshTokenSecret,
+    public string Generate(User user) => _tokenGenerator.Generate(new GenerateTokenRequest(
+        _jwtSettings.RefreshTokenSecret,
         _jwtSettings.Issuer, _jwtSettings.Audience,
-        _jwtSettings.RefreshTokenExpirationMinutes);
+        _jwtSettings.RefreshTokenExpirationMinutes)).Token;
 }

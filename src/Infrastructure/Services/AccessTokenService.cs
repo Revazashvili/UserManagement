@@ -22,7 +22,8 @@ public class AccessTokenService : IAccessTokenService
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.UserName),
         };
-        return _tokenGenerator.Generate(_jwtSettings.AccessTokenSecret, _jwtSettings.Issuer, _jwtSettings.Audience,
-            _jwtSettings.AccessTokenExpirationMinutes, claims);
+        return _tokenGenerator.Generate(new GenerateTokenRequest(_jwtSettings.AccessTokenSecret, _jwtSettings.Issuer,
+            _jwtSettings.Audience,
+            _jwtSettings.AccessTokenExpirationMinutes, claims)).Token;
     }
 }
