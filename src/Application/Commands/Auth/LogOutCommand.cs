@@ -17,7 +17,7 @@ namespace Application.Commands.Auth;
 
 public record LogOutCommand : IRequestWrapper<Unit>;
 
-public sealed class LogOutCommandHandler : IHandlerWrapper<LogOutCommand,Unit>
+internal sealed class LogOutCommandHandler : IHandlerWrapper<LogOutCommand,Unit>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SignInManager<User> _signInManager;

@@ -13,7 +13,7 @@ namespace Application.Commands.Auth;
 
 public record LoginUserCommand(LoginUserRequest LoginUserRequest) : IRequestWrapper<AuthenticateResponse>;
     
-public sealed class LoginUserCommandHandler : IHandlerWrapper<LoginUserCommand,AuthenticateResponse>
+internal sealed class LoginUserCommandHandler : IHandlerWrapper<LoginUserCommand,AuthenticateResponse>
 {
     private readonly IAuthenticateService _authenticateService;
     private readonly IForbid _forbid;

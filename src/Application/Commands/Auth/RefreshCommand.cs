@@ -14,7 +14,7 @@ namespace Application.Commands.Auth;
 
 public record RefreshCommand(RefreshRequest RefreshRequest) : IRequestWrapper<AuthenticateResponse>;
 
-public sealed class RefreshCommandHandler : IHandlerWrapper<RefreshCommand,AuthenticateResponse>
+internal sealed class RefreshCommandHandler : IHandlerWrapper<RefreshCommand,AuthenticateResponse>
 {
     private readonly IAuthenticateService _authenticateService;
     private readonly IForbid _forbid;

@@ -17,7 +17,7 @@ namespace Application.Queries.Users;
 
 public record GetUserQuery(Expression<Func<User,bool>> Predicate) : IRequestWrapper<GetUserRequest>;
 
-public sealed class GetUserQueryHandler : IHandlerWrapper<GetUserQuery,GetUserRequest>
+internal sealed class GetUserQueryHandler : IHandlerWrapper<GetUserQuery,GetUserRequest>
 {
     private readonly UserManager<User> _userManager;
     private readonly IForbid _forbid;
