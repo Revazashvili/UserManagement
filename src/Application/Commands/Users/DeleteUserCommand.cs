@@ -12,7 +12,7 @@ namespace Application.Commands.Users;
 
 public record DeleteUserCommand(string Id) : IRequestWrapper<bool>;
     
-public class DeleteUserCommandHandler : IHandlerWrapper<DeleteUserCommand,bool>
+public sealed class DeleteUserCommandHandler : IHandlerWrapper<DeleteUserCommand,bool>
 {
     private readonly UserManager<User> _userManager;
     private readonly IForbid _forbid;
