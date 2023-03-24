@@ -27,4 +27,18 @@ public class HandlersTests
         
         Assert.True(testResult.IsSuccessful);
     }
+    
+    [Fact]
+    public void AllHandlers_ShouldBe_AreNotPublic()
+    {
+        var testResult = HandlersPredicateList
+            .Should()
+            .NotBePublic()
+            .GetResult();
+        
+        if(testResult.FailingTypeNames is not null && testResult.FailingTypeNames.Any())
+            testResult.FailingTypeNames.ToList().ForEach(typeName => Debug.WriteLine(typeName));
+        
+        Assert.True(testResult.IsSuccessful);
+    }
 }
