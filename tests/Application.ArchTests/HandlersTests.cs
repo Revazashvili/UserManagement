@@ -10,7 +10,9 @@ public class HandlersTests
     private static PredicateList HandlersPredicateList => Types
         .InAssembly(typeof(ServiceCollectionExtension).Assembly)
         .That()
-        .ImplementInterface(typeof(IHandlerWrapper<,>));
+        .ImplementInterface(typeof(IHandlerWrapper<,>))
+        .And()
+        .AreClasses();
     
     [Fact]
     public void AllHandlers_ShouldBe_Sealed()
