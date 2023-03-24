@@ -13,7 +13,7 @@ namespace Application.Commands.Auth;
 
 public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRequestWrapper<Unit>;
 
-public class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
+public sealed class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
 {
     private readonly UserManager<User> _userManager;
     private readonly IForbid _forbid;

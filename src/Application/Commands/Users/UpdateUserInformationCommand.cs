@@ -14,7 +14,7 @@ namespace Application.Commands.Users;
 public record UpdateUserInformationCommand
     (UpdateUserInformationRequest UpdateUserInformationRequest) : IRequestWrapper<bool>;
 
-public class UpdateUserInformationCommandHandler : IHandlerWrapper<UpdateUserInformationCommand, bool>
+public sealed class UpdateUserInformationCommandHandler : IHandlerWrapper<UpdateUserInformationCommand, bool>
 {
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;

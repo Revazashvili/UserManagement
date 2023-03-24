@@ -15,7 +15,7 @@ namespace Application.Queries.Users;
 
 public record GetAllUserQuery : IRequestWrapper<IReadOnlyList<GetUserRequest>>;
 
-public class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserRequest>>
+public sealed class GetAllUserQueryHandler : IHandlerWrapper<GetAllUserQuery,IReadOnlyList<GetUserRequest>>
 {
     private readonly UserManager<User> _userManager;
     private readonly IForbid _forbid;
