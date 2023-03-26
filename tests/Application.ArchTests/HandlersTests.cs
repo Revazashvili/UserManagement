@@ -29,7 +29,7 @@ public class HandlersTests
     }
     
     [Fact]
-    public void AllHandlers_ShouldBe_AreNotPublic()
+    public void AllHandlers_ShouldNotBe_Public()
     {
         var testResult = HandlersPredicateList
             .Should()
