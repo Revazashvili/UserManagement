@@ -6,7 +6,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Services;
 
-public class AuthenticateService : IAuthenticateService
+internal sealed class AuthenticateService : IAuthenticateService
 {
     private readonly IAccessTokenService _accessTokenService;
     private readonly IRefreshTokenService _refreshTokenService;

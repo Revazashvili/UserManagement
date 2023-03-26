@@ -38,7 +38,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.InjectServices(Assembly.GetAssembly(typeof(ITokenGenerator))!,
-            Assembly.GetAssembly(typeof(TokenGenerator))!, 
+            Assembly.GetAssembly(typeof(Infrastructure.ServiceCollectionExtension))!, 
             Assembly.GetExecutingAssembly());
 
         services.AddCors(options => options.AddPolicy(ApiCorsPolicy, builder =>

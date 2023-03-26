@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Infrastructure.Services;
 
 /// <inheritdoc cref="ITokenGenerator"/>
-public class TokenGenerator : ITokenGenerator
+internal sealed class TokenGenerator : ITokenGenerator
 {
     /// <summary>
     /// Generates a security token based on the provided request.

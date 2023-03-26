@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services;
 
-public class RefreshTokenValidator : IRefreshTokenValidator
+internal sealed class RefreshTokenValidator : IRefreshTokenValidator
 {
     private readonly JwtSettings _jwtSettings;
 

@@ -6,7 +6,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Services;
 
-public class AccessTokenService : IAccessTokenService
+internal sealed class AccessTokenService : IAccessTokenService
 {
     private readonly ITokenGenerator _tokenGenerator;
     private readonly JwtSettings _jwtSettings;

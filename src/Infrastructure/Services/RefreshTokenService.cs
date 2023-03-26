@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Services;
 
-public class RefreshTokenService : IRefreshTokenService
+internal sealed class RefreshTokenService : IRefreshTokenService
 {
     private readonly ITokenGenerator _tokenGenerator;
     private readonly JwtSettings _jwtSettings;
