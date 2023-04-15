@@ -1,6 +1,5 @@
 using System.Reflection;
 using Application.Common.Behaviours;
-using Application.Common.Interfaces;
 using FluentValidation;
 using Forbids;
 using Mapster;
@@ -8,7 +7,6 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Netjection;
 
 namespace Application;
 

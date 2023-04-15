@@ -6,7 +6,6 @@ using Application.Common.DTOs.Users;
 using Application.Common.Models;
 using Ardalis.ApiEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

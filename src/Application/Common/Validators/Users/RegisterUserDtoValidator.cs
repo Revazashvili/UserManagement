@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Auth;
-using Application.Common.DTOs.Users;
 using Domain.Entities;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;

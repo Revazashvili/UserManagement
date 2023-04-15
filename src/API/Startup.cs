@@ -10,7 +10,6 @@ using Application.Common.Models;
 using Application.Common.Settings;
 using FluentValidation.AspNetCore;
 using Infrastructure;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;

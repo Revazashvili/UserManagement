@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using API.Routes;
 using Application.Commands.Auth;
 using Application.Common.DTOs.Auth;
-using Application.Common.Models;
 using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
