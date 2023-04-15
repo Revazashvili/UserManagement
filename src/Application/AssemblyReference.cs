@@ -1,19 +1,11 @@
+using System;
 using System.Reflection;
 
 namespace Application;
 
 internal static class AssemblyReference
 {
-    private static Assembly? _assembly;
-    internal static Assembly Assembly
-    {
-        get
-        {
-            if(_assembly is not null)
-                return _assembly;
-
-            _assembly = Assembly.GetExecutingAssembly();
-            return _assembly;
-        }
-    }
+    private static readonly Lazy<Assembly> LazyAssembly =
+        new(Assembly.GetExecutingAssembly());
+    internal static Assembly Assembly => LazyAssembly.Value;
 }
