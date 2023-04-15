@@ -1,4 +1,3 @@
-using System.Reflection;
 using Application.Common.Behaviours;
 using FluentValidation;
 using Forbids;
@@ -24,8 +23,8 @@ public static class ServiceCollectionExtension
     {
         services.AddSingleton(TypeAdapterConfig.GlobalSettings);
         services.AddScoped<IMapper, ServiceMapper>();
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(AssemblyReference.Assembly);
+        services.AddMediatR(AssemblyReference.Assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TaskCanceledExceptionBehaviour<,>));
