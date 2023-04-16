@@ -13,16 +13,6 @@
     "WriteTo": [
       {
         "Name": "Console"
-      },
-      {
-        "Name": "File",
-        "IsJson": true,
-        "Args": {
-          "path": "C:\\Logs\\API\\CATemplate\\log.json",
-          "rollingInterval":"Day",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] [Machine: {MachineName}] [RequestId: {RequestId}] {Message} {NewLine} {Exception}",
-          "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog"
-        }
       }
     ],
     "Enrich": [
