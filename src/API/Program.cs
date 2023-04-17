@@ -13,7 +13,7 @@ namespace API;
 /// <summary>
 /// Entry Point Of Application
 /// </summary>
-public static class Program
+public class Program
 {
     /// <summary>
     /// Migrates pending database changes and starts the application
