@@ -1,11 +1,10 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.DTOs.Auth;
 using Application.Common.Models;
 using Application.Common.Wrappers;
 using Domain.Entities;
-using Domain.Exceptions;
-using Forbids;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -16,16 +15,14 @@ public record RegisterUserCommand(RegisterUserRequest RegisterUserRequest) : IRe
 internal sealed class RegisterUserCommandHandler : IHandlerWrapper<RegisterUserCommand,Unit>
 {
     private readonly UserManager<User> _userManager;
-    private readonly IForbid _forbid;
-
-    public RegisterUserCommandHandler(UserManager<User> userManager, IForbid forbid) =>
-        (_userManager, _forbid) = (userManager, forbid);
-        
+    public RegisterUserCommandHandler(UserManager<User> userManager) => _userManager = userManager;
+    
     public async Task<IResponse<Unit>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = new User(request.RegisterUserRequest.Email);
         var createResult = await _userManager.CreateAsync(user, request.RegisterUserRequest.Password);
-        _forbid.False(createResult.Succeeded, RegisterException.Instance);
-        return Response.Success(Unit.Value);
+        return createResult.Succeeded
+            ? Response.Success(Unit.Value)
+            : Response.Fail<Unit>(createResult.Errors.Select(error => error.Description).ToList());
     }
 }
